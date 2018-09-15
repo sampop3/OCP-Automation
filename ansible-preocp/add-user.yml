@@ -1,0 +1,39 @@
+---
+- name: "Add Ansible user and its public key to the cluster nodes"
+  hosts: nodes,etcd
+  tasks: 
+    - name: "Add Ansible user" 
+      user:
+        name: ansible
+        comment: "OCP installer user"
+        groups: 
+          - wheel
+
+- name: "Create ~/.ssh path and add the ansible user key"
+  hosts: nodes,etcd
+  tasks:
+    - name: "create the ~/.ssh path"
+      file:
+        path: /home/ansible/.ssh
+        state: directory
+        owner: ansible
+        mode: 0700
+    - name: "create authorized_keys file"
+      file: 
+        path: "/home/ansible/.ssh/authorized_keys"
+        state: touch
+        owner: ansible
+        mode:  0644
+
+- name: "Add public key"
+  become: True
+  become_user: ansible
+  hosts: nodes,etcd
+  tasks:
+     - name: "Add Keys file"
+       include_vars: vars/keys.yml
+     - name: "Add publickeys to hosts"
+       lineinfile:
+          dest: /home/ansible/.ssh/authorized_keys 
+          line: "{{ item.key }}"
+       with_items: "{{ keys }}" 

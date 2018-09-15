@@ -1,0 +1,9 @@
+---
+repos:
+  - repo: rhel-7-server-rpms 
+  - host: rhel-7-server-extras-rpms
+  - host: rhel-7-fast-datapath-rpms
+  - host: rhel-7-server-ansible-2.4-rpms
+  - host: rhel-7-server-ose-3.7-rpms
+#  - host: rhel-7-server-ose-3.8-rpms       
+#  - host: rhel-7-server-ose-3.9-rpms

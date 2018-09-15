@@ -1,0 +1,15 @@
+---
+- name: "Disable all repositories and add OCP repos"
+  hosts: nodes,etcd
+  tasks: 
+    - name: "disbale All repose" 
+      rhsm_repository:
+        name: '*'
+        state: disabled
+    - name: "Add repositories source file"
+      include_vars: vars/repos.yml
+    - name: "Enable OCP required repositories"
+      rhsm_repository: 
+        name: "{{ item.repo }}"
+        state: enabled
+      with_items: "{{ repos }}" 

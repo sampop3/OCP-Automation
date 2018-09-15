@@ -1,0 +1,10 @@
+/exports/metrics 10.0.0.0/24(rw,all_squash,async)
+/exports/prometheus/prometheus 10.0.0.0/24(rw,all_squash,async)
+/exports/prometheus/alertmanager 10.0.0.0/24(rw,all_squash,async)
+/exports/prometheus/alertbuffer 10.0.0.0/24(rw,all_squash,async)
+/exports/etcd 10.0.0.0/24(rw,root_squash,async)
+/exports/logging 10.0.0.0/24(rw,root_squash,async)
+
+{% for i in range(50) %}
+/exports/pv/pv{{ i }} 10.0.0.0/24(rw,root_squash,async)
+{% endfor %} 
